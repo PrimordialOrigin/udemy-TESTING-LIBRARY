@@ -7,13 +7,23 @@ import AlertBanner from "../common/AlertBanner";
 import { pricePerItem } from "../../constants";
 import { formatCurrency } from "../../utilities";
 import { useOrderDetails } from "../../contexts/OrderDetails";
+import React from "react";
 
-export default function Options({ optionType }) {
-  const [items, setItems] = useState([]);
-  const [error, setError] = useState(false);
+// Define the types for item options
+interface ItemOption {
+  name: string;
+  imagePath: string;
+}
+
+interface OptionsProps {
+  optionType: "scoops" | "toppings";
+}
+
+export default function Options({ optionType }: OptionsProps) {
+  const [items, setItems] = useState<ItemOption[]>([]);
+  const [error, setError] = useState<boolean>(false);
   const { totals } = useOrderDetails();
 
-  // optionType is 'scoops' or 'toppings
   useEffect(() => {
     const controller = new AbortController();
     axios
@@ -27,7 +37,6 @@ export default function Options({ optionType }) {
   }, [optionType]);
 
   if (error) {
-    // @ts-ignore
     return <AlertBanner />;
   }
 

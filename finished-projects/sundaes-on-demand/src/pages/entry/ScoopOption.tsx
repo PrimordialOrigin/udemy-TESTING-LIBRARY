@@ -1,14 +1,20 @@
-import { useState } from "react";
+import React,{ useState, ChangeEvent } from "react";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import { useOrderDetails } from "../../contexts/OrderDetails";
 
-export default function ScoopOptions({ name, imagePath }) {
+interface ScoopOptionsProps{
+  name: string;
+  imagePath: string;
+}
+
+export default function ScoopOptions({ name, imagePath }: ScoopOptionsProps) {
   const { updateItemCount } = useOrderDetails();
 
-  const [isValid, setIsValid] = useState(true);
-  const handleChange = (event) => {
+  const [isValid, setIsValid] = useState<boolean>(true);
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const currentValue = event.target.value;
 
     // make sure we're using a number and not a string to validate
